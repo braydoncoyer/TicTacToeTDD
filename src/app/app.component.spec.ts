@@ -9,7 +9,6 @@ describe('AppComponent', () => {
       ],
     }).compileComponents();
   }));
-
   it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
@@ -27,5 +26,12 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('h1').textContent).toContain('Welcome to tic-tac-toe-with-jest!');
+  });
+  it('should set the name correctly', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    expect(app.name).toBe(undefined);
+    app.setName();
+    expect(app.name).toBe('Braydon');
   });
 });
