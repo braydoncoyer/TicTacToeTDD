@@ -6,7 +6,7 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'tic-tac-toe-with-jest';
+  title = 'Tic-Tac-Toe';
   name: String;
   ngOnInit(): void {
     this.setName();

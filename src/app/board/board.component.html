@@ -1,3 +1,7 @@
-<p>
-  board works!
-</p>
+<div class="board">
+  <div class="board__content">
+    <div class="row" *ngFor="let row of [0, 1, 2]">
+      <app-tile *ngFor="let col of [0, 1, 2]" [value]="boardMap.get(col+row*3)" [id]="col+row*3"></app-tile>
+    </div>
+  </div>
+</div>

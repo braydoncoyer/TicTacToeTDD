@@ -73,6 +73,4 @@ describe('BoardComponent', () => {
       expect(component.currentPlayer).toBe('O');
     });
   });
-
-
 });
