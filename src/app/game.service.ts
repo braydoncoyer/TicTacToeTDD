@@ -12,6 +12,6 @@ export class GameService {
   }
 
   getNextPlayer(currentPlayer: string): string {
-    return currentPlayer === "Y" ? "X" : "Y";
+    return currentPlayer === "O" ? "X" : "O";
   }
 }

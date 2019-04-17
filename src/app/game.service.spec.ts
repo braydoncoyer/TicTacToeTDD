@@ -36,10 +36,10 @@ describe('GameService', () => {
 
     it('Should call getNextPlayer and return Y', () => {
       const getNextPlayerSpy: SpyInstance = jest.spyOn(service, 'getNextPlayer');
-      getNextPlayerSpy.mockReturnValue("Y");
+      getNextPlayerSpy.mockReturnValue("O");
       const result = service.getNextPlayer(null);
       expect(getNextPlayerSpy).toHaveBeenCalled();
-      expect(result).toBe("Y");
+      expect(result).toBe("O");
     });
   });
 });
