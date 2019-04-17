@@ -8,10 +8,10 @@ export class GameService {
   constructor() { }
 
   isGameEnded(map: any): boolean {
-    return true;
+    return false;
   }
 
   getNextPlayer(currentPlayer: string): string {
-    return null;
+    return currentPlayer === "Y" ? "X" : "Y";
   }
 }

@@ -9,12 +9,12 @@ import {GameService} from '../game.service';
 export class BoardComponent implements OnInit {
   boardMap: Map<any, any>;
   isGameOver: boolean;
-  currentPlayer: string;
+  currentPlayer = "X";
 
   constructor(private gameService: GameService) { }
 
   ngOnInit() {
-    this.boardMap = new Map([[0, "O"], [1, "X"], [2, "O"], [3, "X"], [4, "O"], [5, "X"], [6, "O"], [7, "X"], [8, "Y"]]);
+    this.initBoardMap();
   }
   incrementTurn() {
     this.isGameOver = this.checkGameEnded();
@@ -25,5 +25,16 @@ export class BoardComponent implements OnInit {
 
   checkGameEnded(): boolean {
     return this.gameService.isGameEnded(null);
+  }
+
+  initBoardMap() {
+    this.boardMap = new Map([[0, null], [1, null], [2, null], [3, null], [4, null], [5, null], [6, null], [7, null], [8, null]]);
+  }
+
+  makeMove(tileId) {
+    if (this.boardMap.get(tileId) != null)
+      return;
+    this.boardMap.set(tileId, this.currentPlayer);
+    this.incrementTurn();
   }
 }
