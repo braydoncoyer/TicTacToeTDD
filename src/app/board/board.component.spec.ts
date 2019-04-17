@@ -13,14 +13,6 @@ class MockGameService {
   isGameEnded = jest.fn(() => {});
 }
 
-class MockTileComponent {
-  @Input() value: "X" | "O";
-  @Input() id: number;
-
-  constructor() {}
-
-}
-
 describe('BoardComponent', () => {
   let component: BoardComponent;
   let service: MockGameService;
@@ -47,7 +39,7 @@ describe('BoardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('Check Game Ended Method', () => {
+  describe('Game Ended Method', () => {
     it('should call service and determine if the game is over', () => {
       const spy: SpyInstance = jest.spyOn(service, 'isGameEnded');
       spy.mockReturnValue(true);

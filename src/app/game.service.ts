@@ -7,7 +7,7 @@ export class GameService {
 
   constructor() { }
 
-  isGameEnded(map: any): boolean {
+  isGameEnded(map: Map<any, any>): boolean {
     return false;
   }
 
