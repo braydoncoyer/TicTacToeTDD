@@ -13,18 +13,19 @@ export class GameService {
     // next, check to see if all of the tiles are filled
     // else, make game over logic to determine if there is a winner
 
-    const values = [];
+    const boardValues = [];
 
     map.forEach((value, key) => {
-      values.push(value);
+      boardValues.push(value);
     });
 
-    const playedTiles = values.filter(v => v !== null);
+    const playedTiles = boardValues.filter(v => v !== null);
 
     if (playedTiles.length < 5)
       return false;
-    else if (playedTiles.length === 9)
-      return false;
+    else if (playedTiles.length === 9) {
+     return this.checkForTie();
+    }
     else {
       const lines = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
@@ -35,7 +36,7 @@ export class GameService {
       for (const line of lines) {
         const winValues = [];
         line.forEach(index => {
-          winValues.push(values[index]);
+          winValues.push(boardValues[index]);
         });
         const firstWinValue = winValues[0];
         if (winValues.every(index => index === firstWinValue && index != null))
@@ -43,7 +44,10 @@ export class GameService {
       }
       return false;
     }
+    return false;
+  }
 
+  checkForTie() {
     return false;
   }
 
