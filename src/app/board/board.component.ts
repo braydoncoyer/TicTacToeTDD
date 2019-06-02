@@ -14,7 +14,7 @@ export class BoardComponent implements OnInit {
   constructor(private gameService: GameService) { }
 
   ngOnInit() {
-    this.initBoardMap();
+    this.startNewGame();
   }
   incrementTurn() {
     this.isGameOver = this.checkGameEnded();
@@ -24,7 +24,7 @@ export class BoardComponent implements OnInit {
   }
 
   checkGameEnded(): boolean {
-    return this.gameService.isGameEnded(null);
+    return this.gameService.isGameEnded(this.boardMap);
   }
 
   initBoardMap() {
@@ -36,5 +36,11 @@ export class BoardComponent implements OnInit {
       return;
     this.boardMap.set(tileId, this.currentPlayer);
     this.incrementTurn();
+  }
+
+  startNewGame() {
+    this.initBoardMap();
+    this.currentPlayer = 'X';
+    this.isGameOver = false;
   }
 }

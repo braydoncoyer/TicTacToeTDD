@@ -3,8 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BoardComponent } from './board.component';
 import {GameService} from '../game.service';
 import SpyInstance = jest.SpyInstance;
-import {TileComponent} from '../tile/tile.component';
-import {Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 class MockGameService {
   getNextPlayer = jest.fn( (currentPlayer: string) => {}
@@ -13,17 +12,27 @@ class MockGameService {
   isGameEnded = jest.fn(() => {});
 }
 
+@Component({
+  selector: 'app-tile',
+  template: ''
+})
+class MockTileComponent {
+  @Input() value: string;
+  @Input() id: number;
+
+}
+
 describe('BoardComponent', () => {
   let component: BoardComponent;
   let service: MockGameService;
   let fixture: ComponentFixture<BoardComponent>;
+  let expectedMapValueAfterInitialize: Map<any, any>;
 
   beforeEach(async(() => {
     service = new MockGameService();
 
     TestBed.configureTestingModule({
-      declarations: [ BoardComponent, TileComponent ],
-      // imports: [TileComponent],
+      declarations: [ BoardComponent, MockTileComponent ],
       providers: [{provide: GameService, useValue: service}]
     })
     .compileComponents();
@@ -32,11 +41,25 @@ describe('BoardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BoardComponent);
     component = fixture.componentInstance;
+    expectedMapValueAfterInitialize =  new Map([[0, null], [1, null], [2, null], [3, null], [4, null], [5, null], [6, null], [7, null], [8, null]]);
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('Initialize BoardMap', () => {
+    it('should initialize and reset boardMap', () => {
+      const initBoardMapSpy: SpyInstance = jest.spyOn(component, 'initBoardMap');
+      component.ngOnInit();
+      expect(initBoardMapSpy).toHaveBeenCalled();
+    });
+
+    it('should reset the board values to default values', () => {
+      component.initBoardMap();
+      expect(component.boardMap).toEqual(expectedMapValueAfterInitialize);
+    })
   });
 
   describe('Game Ended Method', () => {
@@ -75,15 +98,6 @@ describe('BoardComponent', () => {
     });
   });
 
-  describe('Initialize BoardMap', () => {
-    it('should initialize and reset boardMap', () => {
-      const initBoardMapSpy: SpyInstance = jest.spyOn(component, 'initBoardMap');
-      component.ngOnInit();
-      expect(initBoardMapSpy).toHaveBeenCalled();
-    });
-  });
-
-
   describe('Make Move Method', () => {
     it('should update the boardMap if spot is empty', () => {
       component.currentPlayer = 'X';
@@ -107,4 +121,19 @@ describe('BoardComponent', () => {
       expect(incrementTurnSpy).not.toHaveBeenCalled();
     });
   });
+
+  describe('Reset Game Method', () => {
+    it('should reset the board map', () => {
+      const spy = jest.spyOn(component, 'initBoardMap');
+      component.startNewGame();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should reset currentPlayer to X', () => {
+      component.currentPlayer = "O";
+      component.startNewGame();
+      expect(component.currentPlayer).toBe("X");
+    });
+
+  })
 });

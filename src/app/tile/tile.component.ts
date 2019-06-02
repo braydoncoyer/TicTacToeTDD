@@ -13,4 +13,5 @@ export class TileComponent implements OnInit {
 
   ngOnInit() {
   }
+
 }
