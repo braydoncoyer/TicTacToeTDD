@@ -1,17 +1,33 @@
 .board {
   display: flex;
   flex-direction: column;
-  position: fixed;
-  top: 50%;
-  left: 50%;
+  align-items: center;
   background-color: #34495e;
   color: #fff;
   border: 6px solid #2c3e50;
   border-radius: 10px;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  min-width: 320px;
+  max-width: 320px;
+  margin: 0 auto;
+
+  &__row {
+    display: flex;
+  }
 }
 
-.row {
+.reset-game {
+  text-align: center;
+  background-color: #34495e;
+  border: 5px solid #2c3e50;
+  color: white;
   display: flex;
+  width: 330px;
+  height: 50px;
+  margin: 2rem auto 0 auto;
+  justify-content: center;
+
+  &__btn {
+    cursor: pointer;
+    padding-top: 14px;
+  }
 }

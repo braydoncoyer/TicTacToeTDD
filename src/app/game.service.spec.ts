@@ -27,19 +27,17 @@ describe('GameService', () => {
 
   describe('getNextPlayer Function', () => {
     it('Should call getNextPlayer and return X', () => {
-      const getNextPlayerSpy: SpyInstance = jest.spyOn(service, 'getNextPlayer');
-      getNextPlayerSpy.mockReturnValue("X");
-      const result = service.getNextPlayer(null);
-      expect(getNextPlayerSpy).toHaveBeenCalled();
+      const result = service.getNextPlayer("O");
       expect(result).toBe("X");
     });
 
-    it('Should call getNextPlayer and return Y', () => {
-      const getNextPlayerSpy: SpyInstance = jest.spyOn(service, 'getNextPlayer');
-      getNextPlayerSpy.mockReturnValue("O");
-      const result = service.getNextPlayer(null);
-      expect(getNextPlayerSpy).toHaveBeenCalled();
+    it('Should call getNextPlayer and return O', () => {
+      const result = service.getNextPlayer("X");
       expect(result).toBe("O");
     });
   });
+
+  describe('isGameEnded Function', () => {
+
+  })
 });

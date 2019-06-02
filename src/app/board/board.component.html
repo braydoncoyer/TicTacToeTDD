@@ -1,10 +1,14 @@
 <div class="board">
   <div class="board__content">
-    <div class="row" *ngFor="let row of [0, 1, 2]">
+    <div class="board__row" *ngFor="let row of [0, 1, 2]">
       <app-tile *ngFor="let col of [0, 1, 2]"
                 [value]="boardMap.get(col+row*3)"
                 [id]="col+row*3"
-                (click)="makeMove(col+row*3)"></app-tile>
+                (click)="!this.isGameOver ? makeMove(col+row*3) : null"></app-tile>
     </div>
   </div>
+</div>
+
+<div class="reset-game">
+  <div class="reset-game__btn" (click)="startNewGame()">Reset Game</div>
 </div>
