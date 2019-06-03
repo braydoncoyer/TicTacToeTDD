@@ -51,7 +51,7 @@ describe('GameService', () => {
       expect(result).toBe(false);
     });
 
-    it('should return false if there are 9 moves on the board, resulting in a tie', () => {
+    it('should call the checkForTie function if the board is full', () => {
       const spy = jest.spyOn(service, 'checkForTie');
       dummyboard.set(0, "X");
       dummyboard.set(1, "X");
@@ -62,41 +62,51 @@ describe('GameService', () => {
       dummyboard.set(6, "O");
       dummyboard.set(7, "O");
       dummyboard.set(8, "O");
-
-      const result = service.isGameEnded(dummyboard);
-
-      expect(result).toBe(false);
+      service.isGameEnded(dummyboard);
       expect(spy).toHaveBeenCalled();
-
     });
 
-    it('should return true for a winning game', () => {
+    it('should call the checkForWin function if number of moves on board is valid', () => {
+      const spy = jest.spyOn(service, 'checkForWin');
       dummyboard.set(0, "X");
       dummyboard.set(1, "X");
       dummyboard.set(2, "X");
       dummyboard.set(3, "O");
       dummyboard.set(4, "X");
 
-      const result = service.isGameEnded(dummyboard);
+      service.isGameEnded(dummyboard);
+      expect(spy).toHaveBeenCalled();
+    });
+  });
+
+  describe('checkForWin Function', () => {
+    it('should return true for a winning game', () => {
+      const boardValues = ["X", "X", "X", "X", "O", null, null, null, null];
+
+      const result = service.checkForWin(boardValues);
       expect(result).toBe(true);
     });
 
     it('should return false for a winning game', () => {
-      dummyboard.set(0, "X");
-      dummyboard.set(1, "O");
-      dummyboard.set(2, "X");
-      dummyboard.set(3, "O");
-      dummyboard.set(4, "X");
+      const boardValues = ["X", "X", "O", "X", "O", null, null, null, null];
 
-      const result = service.isGameEnded(dummyboard);
+      const result = service.checkForWin(boardValues);
       expect(result).toBe(false);
     });
   });
 
   describe('checkForTie Function', () => {
-    it('should return null', () => {
-      const result = service.checkForTie();
+    it('should call checkForWin function to see if last play was a win condition', () => {
+      const boardValues = [null, null, null, null, null, null, null, null, null];
+      const spy = jest.spyOn(service, 'checkForWin');
+      const result = service.checkForTie(boardValues);
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('if the result from checkForWin is false, should return true', () => {
+      const boardValues = ["X", "O", "O", "O", "X", "X", "X", "O", "O"];
+      const result = service.checkForTie(boardValues);
       expect(result).toBe(false);
-    })
+    });
   });
 });

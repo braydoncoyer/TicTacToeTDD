@@ -4,7 +4,9 @@
       <app-tile *ngFor="let col of [0, 1, 2]"
                 [value]="boardMap.get(col+row*3)"
                 [id]="col+row*3"
-                (click)="!this.isGameOver ? makeMove(col+row*3) : null"></app-tile>
+                (click)="!this.isGameOver ? makeMove(col+row*3) : null">
+
+      </app-tile>
     </div>
   </div>
 </div>
