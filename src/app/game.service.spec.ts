@@ -3,6 +3,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import { GameService } from './game.service';
 import SpyInstance = jest.SpyInstance;
 import {componentFactoryName} from '@angular/compiler';
+import {GameState} from './models/game-state';
 
 describe('GameService', () => {
   let service: GameService;
@@ -48,9 +49,14 @@ describe('GameService', () => {
       dummyboard.set(1, "X");
       dummyboard.set(2, "O");
 
+      const expectedState: GameState = {
+        isOver: false,
+        winner: ''
+      };
+
       const result = service.isGameEnded(dummyboard);
 
-      expect(result).toBe(false);
+      expect(result).toEqual(expectedState);
     });
 
     it('should call the checkForTie function if there are 9 moves on the board', () => {
@@ -69,7 +75,7 @@ describe('GameService', () => {
       service.isGameEnded(dummyboard);
 
       expect(spy).toHaveBeenCalled();
-    })
+    });
 
     it('should return true for a winning game situation', () => {
       dummyboard.set(0, "X");
@@ -78,8 +84,13 @@ describe('GameService', () => {
       dummyboard.set(3, "O");
       dummyboard.set(4, "X");
 
+      const expectedState: GameState = {
+        isOver: true,
+        winner: 'SOMEONE!'
+      };
+
       const result = service.isGameEnded(dummyboard);
-      expect(result).toBe(true);
+      expect(result).toEqual(expectedState);
     });
 
     it('should return false for a winning game situation', () => {
@@ -89,8 +100,13 @@ describe('GameService', () => {
       dummyboard.set(3, "O");
       dummyboard.set(4, "X");
 
+      const expectedState: GameState = {
+        isOver: false,
+        winner: ''
+      };
+
       const result = service.isGameEnded(dummyboard);
-      expect(result).toBe(false);
+      expect(result).toEqual(expectedState);
     });
   });
 
@@ -104,14 +120,28 @@ describe('GameService', () => {
     it('should return false if there are 9 moves on the board, resulting in a tie', () => {
       dummyBoardValues = ["X", "O", "X", "X", "X", "O", "O", "X", "O"];
       const result = service.checkForTie(dummyBoardValues);
-      expect(result).toBe(false);
+      const expectedState: GameState = {
+        isOver: false,
+        winner: ''
+      };
+      expect(result).toEqual(expectedState);
     });
 
     it('should return true if there are 9 moves on the board but there is a winner', () => {
       dummyBoardValues = ["X", "O", "O", "X", "X", "O", "O", "O", "X"];
+      const expectedState: GameState = {
+        isOver: true,
+        winner: 'SOMEONE!'
+      };
       const result = service.checkForTie(dummyBoardValues);
-      expect(result).toBe(true);
+      expect(result).toEqual(expectedState);
     });
-
   });
+
+  describe('getGameState Function', () => {
+    it('should return the gameState Object', () => {
+      const result = service.getGameState();
+      expect(result).toBe(service.gameState);
+    });
+  })
 });

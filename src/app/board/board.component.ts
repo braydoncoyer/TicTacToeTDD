@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {GameService} from '../game.service';
+import {GameState} from '../models/game-state';
 
 @Component({
   selector: 'app-board',
@@ -8,7 +9,6 @@ import {GameService} from '../game.service';
 })
 export class BoardComponent implements OnInit {
   boardMap: Map<any, any>;
-  isGameOver: boolean;
   currentPlayer = "X";
 
   constructor(private gameService: GameService) { }
@@ -17,13 +17,13 @@ export class BoardComponent implements OnInit {
     this.startNewGame();
   }
   incrementTurn() {
-    this.isGameOver = this.checkGameEnded();
-    if (!this.isGameOver) {
+    // this.getGameState().isOver = this.checkGameEnded();
+    if (!this.getGameState().isOver) {
       this.currentPlayer = this.gameService.getNextPlayer(this.currentPlayer);
     }
   }
 
-  checkGameEnded(): boolean {
+  checkGameEnded(): GameState {
     return this.gameService.isGameEnded(this.boardMap);
   }
 
@@ -41,6 +41,10 @@ export class BoardComponent implements OnInit {
   startNewGame() {
     this.initBoardMap();
     this.currentPlayer = 'X';
-    this.isGameOver = false;
+    this.gameService.setGameState({isOver: false, winner: ''})
+  }
+
+  getGameState(): GameState {
+    return this.gameService.getGameState();
   }
 }
