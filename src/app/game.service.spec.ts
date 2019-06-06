@@ -7,10 +7,12 @@ import {componentFactoryName} from '@angular/compiler';
 describe('GameService', () => {
   let service: GameService;
   let dummyboard: Map<any, any>;
+  let dummyBoardValues = [];
   beforeEach(() => TestBed.configureTestingModule({}));
 
   beforeEach(() => {
     service = TestBed.get(GameService);
+    dummyBoardValues = ["X", "O", "O", "X", "O", "X", "O", "O", "X"];
     dummyboard = new Map([[0, null], [1, null], [2, null], [3, null], [4, null], [5, null], [6, null], [7, null], [8, null]]);
   });
 
@@ -51,26 +53,25 @@ describe('GameService', () => {
       expect(result).toBe(false);
     });
 
-    it('should return false if there are 9 moves on the board, resulting in a tie', () => {
-      const spy = jest.spyOn(service, 'checkForTie');
+    it('should call the checkForTie function if there are 9 moves on the board', () => {
       dummyboard.set(0, "X");
       dummyboard.set(1, "X");
-      dummyboard.set(2, "O");
+      dummyboard.set(2, "X");
       dummyboard.set(3, "O");
-      dummyboard.set(4, "O");
-      dummyboard.set(5, "O");
-      dummyboard.set(6, "O");
-      dummyboard.set(7, "O");
+      dummyboard.set(4, "X");
+      dummyboard.set(5, "X");
+      dummyboard.set(6, "X");
+      dummyboard.set(7, "X");
       dummyboard.set(8, "O");
 
-      const result = service.isGameEnded(dummyboard);
+      const spy = spyOn(service, 'checkForTie');
 
-      expect(result).toBe(false);
+      service.isGameEnded(dummyboard);
+
       expect(spy).toHaveBeenCalled();
+    })
 
-    });
-
-    it('should return true for a winning game', () => {
+    it('should return true for a winning game situation', () => {
       dummyboard.set(0, "X");
       dummyboard.set(1, "X");
       dummyboard.set(2, "X");
@@ -81,7 +82,7 @@ describe('GameService', () => {
       expect(result).toBe(true);
     });
 
-    it('should return false for a winning game', () => {
+    it('should return false for a winning game situation', () => {
       dummyboard.set(0, "X");
       dummyboard.set(1, "O");
       dummyboard.set(2, "X");
@@ -94,9 +95,23 @@ describe('GameService', () => {
   });
 
   describe('checkForTie Function', () => {
-    it('should return null', () => {
-      const result = service.checkForTie();
+    it('should call checkForWin Function', () => {
+      const spy = spyOn(service, 'checkForWin');
+      service.checkForTie(dummyBoardValues);
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should return false if there are 9 moves on the board, resulting in a tie', () => {
+      dummyBoardValues = ["X", "O", "X", "X", "X", "O", "O", "X", "O"];
+      const result = service.checkForTie(dummyBoardValues);
       expect(result).toBe(false);
-    })
+    });
+
+    it('should return true if there are 9 moves on the board but there is a winner', () => {
+      dummyBoardValues = ["X", "O", "O", "X", "X", "O", "O", "O", "X"];
+      const result = service.checkForTie(dummyBoardValues);
+      expect(result).toBe(true);
+    });
+
   });
 });

@@ -24,34 +24,39 @@ export class GameService {
     if (playedTiles.length < 5)
       return false;
     else if (playedTiles.length === 9) {
-     return this.checkForTie();
+      return this.checkForTie(boardValues);
     }
     else {
-      const lines = [
-        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
-        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Cols
-        [0, 4, 8], [2, 4, 6] // Diagonals
-      ];
+      return this.checkForWin(boardValues);
+    }
+  }
 
-      for (const line of lines) {
-        const winValues = [];
-        line.forEach(index => {
-          winValues.push(boardValues[index]);
-        });
-        const firstWinValue = winValues[0];
-        if (winValues.every(index => index === firstWinValue && index != null))
-          return true;
-      }
-      return false;
+  checkForWin(boardValues: any[]) {
+    console.log('BOARD VALUES ARE ', boardValues);
+    const lines = [
+      [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+      [0, 3, 6], [1, 4, 7], [2, 5, 8], // Cols
+      [0, 4, 8], [2, 4, 6] // Diagonals
+    ];
+
+    for (const line of lines) {
+      const winValues = [];
+      line.forEach(index => {
+        winValues.push(boardValues[index]);
+      });
+      const firstWinValue = winValues[0];
+      if (winValues.every(index => index === firstWinValue && index != null))
+        return true;
     }
     return false;
-  }
+  };
 
-  checkForTie() {
-    return false;
-  }
+  checkForTie(boardValues: any[]) {
+    console.log(!!this.checkForWin(boardValues));
+    return !!this.checkForWin(boardValues);
+  };
 
   getNextPlayer(currentPlayer: string): string {
     return currentPlayer === "O" ? "X" : "O";
-  }
+  };
 }
